@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "_02_hello_world_azure_functions": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7015",
-      "launchBrowser": false
-    }
-  }
-}

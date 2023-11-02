@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+</head>
+
+<body>
+    <h1>Movie List</h1>
+
+    <input type="text" id="movieInput" placeholder="Write a movie name">
+    <button id="addButton">Add</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Movie</th>
+            </tr>
+        </thead>
+        <tbody id="movieTable">
+        </tbody>
+    </table>
+
+    <script>
+        let addButton = document.getElementById("addButton")
+        let movieInput = document.getElementById("movieInput")
+        let movies = []
+
+        const documentLoaded = () => {
+            const storedMovies = localStorage.getItem('movies')
+            if (storedMovies !== null) movies = JSON.parse(storedMovies)
+            else movies = []
+
+            render()
+        }
+
+        const render = () => {
+            const movieTable = document.getElementById("movieTable");
+            movieTable.innerHTML = "";
+
+            for (let i = 0; i < movies.length; i++) {
+                let tableRow = document.createElement("tr");
+                let tableId = document.createElement("td");
+                tableId.textContent = i + 1
+                let tableData = document.createElement("td");
+                tableData.textContent = movies[i];
+
+                tableRow.appendChild(tableId);
+                tableRow.appendChild(tableData);
+                movieTable.appendChild(tableRow);
+            }
+        }
+
+        const storeMovies = () => {
+            localStorage.setItem('movies', JSON.stringify(movies))
+        }
+
+        function addMovie() {
+            var movie = movieInput.value;
+
+            if (movies.length < 10) movie.trim() !== "" && movies.push(movie.trim())
+            else {
+                movie.trim() !== "" && movies.shift()
+                movie.trim() !== "" && movies.push(movie.trim())
+            }
+
+            movieInput.value = "";
+            render()
+            storeMovies()
+        }
+
+        window.addEventListener('load', documentLoaded)
+        addButton.addEventListener('click', addMovie)
+    </script>
+</body>
+
+</html>
